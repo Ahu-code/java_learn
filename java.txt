@@ -1,0 +1,475 @@
+﻿1. 抽象方法子类添加快捷键：Ctrl+1
+
+2.
+非静态内部类 
+语法: new 外部类().new 内部类()
+eg:  Hero hero = new Hero();
+       HeroScore score = hero.new HeroScore();
+
+3.默认方法
+default加在接口中 可以在连接该接口的子类中加入default方法
+通过这种手段，就能够很好的扩展新的类，并且做到不影响原来的类
+
+4.父类构造方法在子类构造方法之前进行
+
+5.super
+若父类提供两个构造方法，一个有参，一个无参
+public Hero(){
+        System.out.println("Hero的无参的构造方法 ");}
+     
+public Hero(String name){
+        System.out.println("Hero的有一个参数的构造方法 ");
+        this.name = name;
+}
+子类实例化时， 默认掉用父类无参构造方法（因为可能父类没有提供构造方法）
+================================
+若此时需要调用父类带参构造方法
+用super(name)；
+
+值得注意的是，super是用来调用指定构造方法，而非有参
+若super(); 则调用无参，即可认为子类构造方法中，本身就带有super();
+eg:super(1,2)	super(1)
+且括号内数做其父类的参数
+
+6.instanceof
+
+7.Math.random()  取0-1
+Math.round() 取四舍五入
+
+8.//%s表示字符串，%d表示数字,%n表示换行 
+
+9. 
+startsWith //以...开始
+endsWith //以...结束
+
+//StringBuffer类  使得到 可变长的字符串 
+append追加
+delete 删除
+insert 插入
+reverse 反转 
+
+10.
+如果Hello类中已经有了一个有参数的构造方法,这时再使用 Hello hello = new Hello();来创建对象的时候就会出错,这就是为什么书上要强调写了有参数的构造方法就最好加一个无参数的构造方法.
+
+11.System.arraycopy(src, srcPos, dest, destPos, pos);
+    src：要复制的数组(源数组)
+    srcPos：复制源数组的起始位置
+    dest：目标数组
+    destPos：目标数组的下标位置
+    length：要复制的长度
+
+12.String.valueOf  将其转化为字符串
+String.valueOf(boolean b) : 将 boolean 变量 b 转换成字符串
+
+13.
+总体上异常分三类：
+1. 错误
+2. 运行时异常
+3. 可查异常 
+Java异常机制用到的几个关键字：try、catch、finally、throw、throws
+? try – 用于监听。将要被监听的代码(可能抛出异常的代码)放在try语句块之内，当try语句块内发生异常时，异常就被抛出。
+? catch – 用于捕获异常。catch用来捕获try语句块中发生的异常。
+? finally – finally语句块总是会被执行。它主要用于回收在try块里打开的物力资源(如数据库连接、网络连接和磁盘文件)。只有finally块，执行完成之后，才会回来执行try或者catch块中的return或者throw语句，如果finally中使用了return或者throw等终止方法的语句，则就不会跳回执行，直接停止。
+? throw – 用于抛出异常。
+? throws – 用在方法签名中，用于声明该方法可能抛出的异常。
+
+14
+异常处理三种方式：
+1,throws 交给别人处理
+       public static void readFile(String fileName) throws IOException
+       {
+	if(!fileName.equals("c:\\a.txt")) {
+	       throw new FileNotFoundException("传递文件失败");
+	}
+        }
+2.try...catch （在catch中加入return可结束程序）
+ 	try中抛出什么异常对象，catch就定义什么异常变量
+ 
+Objects.requireNonNull(obj,"传递对象为null");
+
+
+15.打印异常
+getMessage()  一行
+toString() 打印异常名
+printStackTrace() 打印详细
+
+16.finally
+       1，finally不能单独使用， 必须和try一起
+        2，一般用于资源回收
+       3，如果finally中有return语句， 会永远返回return语句中的内容
+
+17.多个异常
+一个try可多个catch：
+     catch中定义的异常变量，如果有子父类关系，那么子类异常变量必须写在上面；
+这就好比你用两个盆子接水，大盆子在上，小盆子在下，那小盆子自然就一滴水也接不到。
+
+18.父类异常啥样，子类异常就啥样
+
+19. 自定义异常类（java提供的异常类不够我们使用）
+  1.格式：public class xxxException extends Exception/RuntimeException
+           需添加一个无参构造方法 
+           需添加一个带异常信息的构造方法（此方法内部调用父类带异常信息的构造方法，让父类来处理）
+   2.必须继承Exception/RuntimeException
+         1.继承Exception,那么自定义异常为编译期异常，若方法内部抛出该异常，需要throws或try...catch
+         2.继承RuntimeException，为运行期异常，无需处理（即不用throw），交给虚拟机（即中断处理）
+
+20.并发与并行
+  1.并发：两个或多个事件在同一时间段进行（交替执行）
+  2.并行：两个或多个事件同时发生
+
+21.进程与线程
+   1.进程：（进入到内存中的程序）
+启动一个LOL.exe就叫一个进程。接着又启动一个DOTA.exe，这叫两个进程。
+   2.线程：线程是进程的一个执行单元，负责程序的执行（多个线程进行互不影响）
+线程是在进程内部同时做的事情，比如在LOL里，有很多事情要同时做，比如"盖伦” 击杀“提莫”，同时“赏金猎人”又在击杀“盲僧”，这就是由多线程来实现的。 
+
+
+22.创建多线程程序（必须继承Thread）
+方式一：
+   1.创建一个Thread子类
+   2.在Thread子类中重写Thread类中的run方法，设置线程作用
+   3.创建Thread类的子类对象
+   4.调用Thread类中的start方法，开启新的线程，执行run方法
+	void start()使该线程开始执行（开辟新的栈空间）
+	 结果是两个线程同时运行：当前线程（从调用返回到start方法）和另一个线程（执行其run方法）。
+	不止一次启动线程是不合法的。 特别地，一旦线程完成执行就可能不会重新启动。 
+
+23.链式编程（获取线程名称）
+run
+start
+setName
+getName
+currentThread
+System.out.println(Thread.currentThread().getName());
+
+24.创建线程方式二
+Runnable接口应由任何类实现，其实例将由线程执行。 该类必须定义一个无参数的方法，称为run 。
+  1. 定义Runnable接口的实现类，并重写该接口的run()方法，该run()方法的方法体是为该线程设置任务。
+  2. 创建Runnable接口实现类的实例，并以此实例作为Thread的target来创建Thread对象，该Thread对象才是真正的线程对象。
+  3. 调用线程对象的start()方法来启动线程。
+
+eg
+public class MyThread implements Runnable
+MyThread mt = new MyThread();
+Thread th = new Thread(mt);
+th.start();
+
+25.实现Runnable接口比继承Thread类所具有的优势：
+1. 适合多个相同的程序代码的线程去共享同一个资源。
+2. 可以避免java中的单继承的局限性。
+3. 增加程序的健壮性，实现解耦操作，代码可以被多个线程共享，代码和线程独立。
+4. 线程池只能放入实现Runable或Callable类线程，不能直接放入继承Thread的类。
+
+26.匿名类
+new Thread().start();//之前的方法
+new Thread() {
+	@Override
+	public void run() {
+	// TODO Auto-generated method stub
+	for(int i=0; i<10; i++)
+	System.out.println(Thread.currentThread().getName()+"-->"+"aa");
+	}
+}.start();
+
+27.Collection --- List接口 与 Set接口
+Collection：单列集合类的根接口，用于存储一系列符合某种规则的元素，它有两个重要的子接口，分别是java.util.List和java.util.Set。
+List的特点是元素有序、元素可重复。
+Set的特点是元素无序，而且不可重复。
+List接口的主要实现类有java.util.ArrayList和java.util.LinkedList，
+Set接口的主要实现类有java.util.HashSet和java.util.TreeSet。
+
+几个方法:
+1.Collection<String> coll = new ArrayList<String>();
+2.public boolean add(）
+3.public boolean remove(）
+3.public boolean contains()
+4.public boolean isEmpty()
+5.public int size()
+6.public Object[] toArray() 将集合变为数组
+7.public void clear()  清空元素，但集合还在 跟创建时一样
+
+28.
+前序遍历首先访问根结点然后遍历左子树，最后遍历右子树。
+中序遍历首先遍历左子树，然后访问根结点，最后遍历右子树。
+后序遍历首先遍历左子树，然后遍历右子树，最后访问根结点，
+
+29.迭代器使用步骤
+   1.使用集合中的方法(iterator)获取迭代器的实现类对象，使用iterator接口接收（多态）
+   2.使用Iterator接口中的方法hasNext判断还有没有下一个元素（boolean）
+   3.使用Iterator接口中的方法next取出下一个元素
+
+30.含有泛型的接口
+public class t<I> implements aInterface<I>
+
+31.泛型的通配符<?>只能用在方法的参数传递中 而不能用在语句定义中
+(因为泛型没有继承概念)在方法中写Object，会都报错
+public static void printArray(ArrayList<?> list) {
+	Iterator<?> it = list.iterator();
+	while(it.hasNext()) {
+		Object o = it.next();//此时用Object 那么都可输出
+		System.out.println(o);
+	}
+}
+
+32.
+ArrayList heroList<? extends Hero> 表示这是一个Hero泛型或者其子类泛型
+ArrayList heroList<? super Hero> 表示这是一个Hero泛型或者其父类泛型
+
+33.JAVA的Collections类中shuffle的用法
+就是随机打乱原来的顺序，和洗牌一样。
+见 shuffleTest.java
+@SuppressWarnings("deprecation")表示不检测过期的方法
+eg:
+@SuppressWarnings(“deprecation”)
+list.count();
+在这里假设 list.count() 这个方法是被弃用了的方法，加上这个注解就表示不去检测这个方法是否被弃用
+
+34.
+get()方法
+    调用get方法,首先判断输入的下标是否在arraylist中的元素数量范围内,如果不在,抛出异常
+    如果在,直接返回数组对应下标的元素
+
+35.List接口中常用方法
+List作为Collection集合的子接口，不但继承了Collection接口中的全部方法，而且还增加了一些根据元素索引来操
+作集合的特有方法，如下：
+list.size()
+public void add(int index, E element) : 将指定的元素，添加到该集合中的指定位置上。
+public E get(int index) :返回集合中指定位置的元素。
+public E remove(int index) : 移除列表中指定位置的元素, 返回的是被移除的元素。
+public E set(int index, E element) :用指定元素替换集合中指定位置的元素,返回值的更新前的元素。
+
+36.Arraylist 查询速度可，但增删较慢
+Arraylist 集合数据存储的结构是数组结构。元素增删慢，查找快，由于日常开发中使用最多的功能为查询数据、遍历数据，所以ArrayList 是最常用的集合。
+
+37.与collection不同，vector是同步的，即单线程
+如果不需要线程安全的实现，建议使用ArrayList代替Vector 。
+是最早期的集合
+
+38.Set 接口继承于collection接口
+它所存储的元素是不可重复的，并且元素都是无序的(即存取顺序不一致)，不能用普通for遍历
+
+39.哈希值：是一个十进制的整数，由系统随机给出（就是对象的地址值，是一个逻辑地址，）
+Object类中的hashcode（）返回哈希值
+若重写hashcode，return 1 ， 此时虽new两个对象，返回哈希值均为一，但只是逻辑地址，俩对象并不相等
+见HeiMa.HashCode01.java
+
+40.重看toString
+Object中toString方法返回一个字符串该字符串由类名（对象是该类的一个实例）、at标记符号“@” 和此对象哈希码的无符号十六进制表示组成。
+//Arrays的toString方法是返回指定数组内容的字符串表示形式。
+两者是重名函数，没有复写。
+
+
+41.红黑树的约束:
+1. 节点可以是红色的或者黑色的
+2. 根节点是黑色的
+3. 每个叶子节点都是黑色的空节点（NIL），也就是说，叶子节点不存储数据；
+4. 任何相邻的节点都不能同时为红色，也就是说，红色节点是被黑色节点隔开的；
+5. 每个节点，从该节点到达其可达叶子节点的所有路径，都包含相同数目的黑色节点；
+
+红黑树的特点:
+速度特别快,趋近平衡树,查找叶子元素最少和最多次数不多于二倍
+
+42.Set集合存储元素不重复的原理：
+add方法会调用hashcode方法，计算字符串s1的哈希值
+在集合中找有没有该哈希值，若发现有相同哈希值，则会调用equals方法进行判定
+因此用HashSet存放自定义类型元素时，需要重写对象中的hashCode和equals方法，建立自己的比较方式，才能保证HashSet集合中的对象唯一
+
+43.Shift+Alt+s快速添加generate  hashcode & equals方法
+重写对象中的hashCode和equals方法
+
+44.
+class<T>和 class<?>类型 有什么区别
+平时看java源代码的时候，如果碰到泛型的话，我想? T K V E这些是经常出现的，但是有时想不起来代表什么意思，今天整理下： 
+？ 表示不确定的java类型。 
+T  表示java类型。 
+K V 分别代表java键值中的Key Value。 
+E 代表Element。 
+
+45.
+LinkedHashSet ，它是链表和哈希表组合的一个数据存储结构
+
+46.可变参数（底层是数组）
+在JDK1.5之后，如果我们定义一个方法需要接受多个参数，并且多个参数类型一致，我们可以对其简化成如下格式：
+修饰符 返回值类型 方法名(参数类型... 形参名){ }
+public static int add(int ...arr) {}
+其实这个书写完全等价于
+修饰符 返回值类型 方法名(参数类型[] 形参名){ }
+只是后面这种定义，在调用时必须传递数组，而前者可以直接传递数据即可。
+JDK1.5以后。出现了简化操作。... 用在参数上，称之为可变参数。
+
+若add(); 就会创建长度为0的数组
+若add(10); 就会创建长度为1的数组
+
+注意：一个方法的参数列表，只能有一个可变参数，若有多个参数，必须写在末尾
+
+可变参数特殊写法：
+public static void add(Object...obj) {}
+
+
+47.Collections常用方法
+public static <T> boolean addAll(Collection<T> c, T... elements) :往集合中添加一些元素。
+
+48.实现Comparable接口完成比较，才能使用sort
+需要implements 其中泛型就写需要改写compareTo的类
+public class Collections01 implements Comparable<Collections01>
+我们采用的public static <T> void sort(List<T> list) 这个方法完成的排序，实际上要求了被排序的类型
+需要实现Comparable接口完成比较的功能
+
+eg:
+//return 0;认为元素都是相同的
+//应当自定义比较规则，比较两个人的年龄
+return this.getAge()-o.getAge();//按年龄升序排序
+ 需要明白，this-参数即为升序
+
+49.Comparable和Comparator的用法——实现comparable就是让自身具有比较性，Comparator是比较器（第三者）
+1.Comparable接口对实现它的每个类的对象强加一个整体排序。 这个排序被称为类的自然排序 ，类的compareTo方法被称为其自然比较方法。该接口有且只有一个方法int compareTo(T o)所以继承此接口需要实现该方法。compareTo返回值-1、0、1。
+
+2.Comparator一般是在比较器例如: Collections.sort(List<T> list, Comparator<? super T> c) 
+
+Collections.sort(list02, new Comparator<Student>() {
+	@Override
+	public int compare(Student o1, Student o2) {
+		// TODO Auto-generated method stub
+		return o1.getAge()-o2.getAge();
+	/*int result = o1.getAge()-o2.getAge();
+	if(result == 0) {
+	       result = o1.getName().charAt(0)-o2.getName().charAt(0);		}
+	return result;*/
+	}
+});
+Comparator :    o1-o2为升序
+return o1.getAge()-o2.getAge();//按年龄升序排序
+详情见https://blog.csdn.net/yguoelect/article/details/77435073?utm_source=distribute.pc_relevant.none-task
+
+50.Map常用子类——HashMap和LinkedHashMap
+HashMap：存储数据采用的哈希表结构，元素的存取顺序不能保证一致。由于要保证键的唯一、不重复，需要重写键的hashCode()方法、equals()方法。
+LinkedHashMap：（保证迭代器）HashMap下有个子类LinkedHashMap，存储数据采用的哈希表结构+链表结构。通过链表结构可以保证元素的存取顺序一致
+
+51.Map常用方法
+/*
+ * public V put(K key, V value) : 把指定的键与指定的值添加到Map集合中。
+ * public V remove(Object key) : 把指定的键 所对应的键值对元素 在Map集合中删除，返回被删除元素的值。
+ * public V get(Object key) 根据指定的键，在Map集合中获取对应的值。
+ * public boolean containsKey（Object key）  返回true | false
+ * public Set<K> keySet() : 获取Map集合中所有的键，存储到Set集合中。
+ * public Set<Map.Entry<K,V>> entrySet() : 获取到Map集合中所有的键值对对象的集合(Set集合)。
+ */
+1.put  key重复时，会拿value替换，返回被替换value
+2.remove（get）时，有key就返回value，否则null
+3.map.containsKey("李晨");  为boolean返回true | false
+4.获取Map中的键，由于键是唯一的，所以返回一个Set集合存储所有的键
+
+52.Map集合遍历键找值方式
+/* 键找值方式：即通过元素中的键，获取键所对应的值
+ * 分析步骤：
+ * 1. 获取Map中所有的键，由于键是唯一的，所以返回一个Set集合存储所有的键。方法提示: keyset()
+ * Set<String> set = map01.keySet();
+ * 2. 遍历键的Set集合，得到每一个键。
+ * 3. 根据键，获取键所对应的值。方法提示: get(K key)
+ */
+
+53.Entry(项)
+Map 中的一个Entry(项)：一一对应的key(键)与value(值)，Entry 将键值对的对应关系封装成了对象，即键值对对象。
+这样我们在遍历Map 集合时，就可以从每一个键值对（ Entry ）对象中获取对应的键与对应的值。
+1. 获取Map集合中，所有的键值对(Entry)对象，以Set集合形式返回。方法提示: entrySet() 。
+2. 遍历包含键值对(Entry)对象的Set集合，得到每一个键值对(Entry)对象。
+3. 通过键值对(Entry)对象，获取Entry对象中的键与值。 方法提示: getkey() getValue()
+
+Map<String,Integer> map01 = new HashMap<String,Integer>();
+Set<Map.Entry<String, Integer>> set = map01.entrySet();
+
+54.
+Map中两种找值方式：
+1.Map集合遍历键找值方式 ， 即通过元素中的键，获取键所对应的值
+keyset  是一个set集合map.keyset()存的是键
+Set<String> set = map01.keySet();
+2.Entry项找值：从每一个键值对（ Entry ）对象中获取对应的键与值。
+entryset 是一个set集合 map.entryset()存键值对
+所以Set<Map.Entry<String, Integer>> set = map01.entrySet();
+
+55.LinkedHashMap：
+（保证迭代器）HashMap下有个子类LinkedHashMap，存储数据采用的哈希表结构+链表结构。通过链表结构可以保证元素的存取顺序一致，且不允许重复。
+
+56.Hashtable与Hashmap
+两者底层都是哈希表，
+Hashtable是一个线程安全的集合，单线程集合，速度慢，不能存储null键，null值
+Hashmap是一个多线程几个，速度快，可以存储null键，null值
+
+57.of()方法
+1:of()方法只是Map，List，Set这三个接口的静态方法，其父类接口和子类实现并没有这类方法，比如HashSet，ArrayList等等；
+2:返回的集合是不可变的，集合不能再使用add,put方法添加元素
+3:Set接口和Map接口在调用of方法时，不能有重复元素，否则会抛出异常
+
+58.debug调试
+<1>表示忽略所有断点，即代码跳过断点继续执行。快捷键（Ctrl+Alt+B）；
+<2>表示当前继续执行代码，直到遇到下一个断点。快捷键（F8）；
+<3>表示暂停；
+<4>表示停止调试，快捷键（Ctrl+F2）；
+<5>表示切断；
+<6>表示进入当前方法内部，然后一步一步执行。快捷键（F5）；
+<7>表示执行当前行，运行下一行代码，快捷键（F6）；
+<8>表示退出当前方法，返回到调用层。快捷键（F7）；
+<9>表示重新跳到当前方法的开始处重新执行。
+
+59.
+pathSeparator  路径分隔符 windows为分号，linus冒号
+separator  文件名称分隔符  windows为反斜杠\  linus为正斜杠/
+因此写文件时不能“写死”：
+/*
+* C:\develop\a.txt   windows
+* C:/develop/a.txt   linus
+* "C"+File.separator+File.pathSeparato+"develop"+File.pathSeparator+"a.txt"
+ */
+路径不区分大小写，且由于\是转义字符，因此用两个\\
+
+60.File的构造方法——无论该路径下是否存在文件或者目录，都不影响File对象的创建。
+/*
+* public File(String pathname) ：通过将给定的路径名字符串转换为抽象路径名来创建新的 File实例。
+* public File(String parent, String child) ：从父路径名字符串和子路径名字符串创建新的 File实例。
+ * 	把路径分成两部分，父路径与子路径可以单独书写
+ * public File(File parent, String child) ：从父抽象路径名和子路径名字符串创建新的 File实例。
+ */
+
+61.File类的方法
+/*
+ * 获取功能的方法
+ * public String getAbsolutePath() ：返回此File的绝对路径名字符串。
+无论路径绝对还是相对的
+ * public String getPath() ：将此File转换为路径名字符串。
+获取构造方法中传递的路径 toString源码可知，就是调用的getPath方法
+ * public String getName() ：返回由此File表示的文件或目录的名称。
+获取即为构造方法传递路径的结尾部分
+ * public long length() ：返回由此File表示的文件的长度。
+以字节为单位，没有就返回0，且文件夹没有文件大小
+ */
+/*
+ * 判断功能的方法
+ * public boolean exists() ：此File表示的文件或目录是否实际存在。
+ * public boolean isDirectory() ：此File表示的是否为目录。
+ * public boolean isFile() ：此File表示的是否为文件。
+ */
+/*
+* 创建删除功能的方法
+* public boolean createNewFile() ：当且仅当具有该名称的文件尚不存在时，创建一个新的空文件。
+文件不存在，或路径错误时会抛出I/O异常
+ * public boolean delete() ：删除由此File表示的文件或目录。
+若文件内有东西，不能删，直接删，不走回收站
+ * public boolean mkdir() ：创建由此File表示的目录。
+ * public boolean mkdirs() ：创建由此File表示的目录，包括任何必需但不存在的父目录。//既可创建单级，也可创建多级
+ */创建时，需要看类型，而不是只看名称
+/*
+ * 目录的遍历
+ * public String[] list() ：返回一个String数组，表示该File目录中的所有子文件或目录。
+若为文件/路径错误，则返回空指针异常,且隐藏的也能获取
+ * public File[] listFiles() ：返回一个File数组，表示该File目录中的所有的子文件或目录。打印路径
+ */
+
+62.输出后缀名为.java的文件名
+将f对象转化为字符串对象 ——getName()/getPath()/toString()
+然后调用String类中的EndWith,与后缀名进行比较
+
+63.
+文件过滤器优化
+java.io.FileFilter 是一个接口，是File的过滤器。 该接口的对象可以传递给File类的listFiles(FileFilter)
+作为参数， 接口中只有一个方法。
+boolean accept(File pathname) ：测试pathname是否应该包含在当前File目录中，符合则返回true。
