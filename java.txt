@@ -551,4 +551,114 @@ while((len=fis.read(bytes)) != -1)
 2.//写入字符串
 fw.write("字符串",0,2); //最后一个参数为长度
 3.续写和换行：操作类似于FileOutputStream。
+--------------------------------------------------------------
+67.IO异常处理(JDK7的新特性)
+可以使用JDK7优化后的try-with-resource 语句，该语句确保了每个资源在语句结束时关闭。所谓的资源（resource）是指在程序完成后，必须关闭的对象
+----------
+try (创建流对象语句，如果多个,使用';'隔开) {
+// 读写数据
+} catch (IOException e) {
+e.printStackTrace();
+}
+------------------------------------
+68.IO异常处理(JDK9的新特性)
+ * JDK9的改进(扩展知识点了解内容)
+ * JDK9中try-with-resource 的改进，对于引入对象的方式，支持的更加简洁
+ * 对JDK7进行优化
+ * ----------
+ * A a = new A();
+ * B b = new B();
+ * try (a;b) {
+ * // 读写数据
+ * } catch (IOException e) {
+ * 		e.printStackTrace();
+ * }
+ * 即不用写finally
+--------------------------------------
+69.Map-Hashtable-Properties类
+/*
+ * 属性集
+ * java.util.Properties 继承于Hashtable ，来表示一个持久的属性集。
+ * 是一个双列集合		Map-Hashtable-Properties类
+ * 它使用键值结构存储数据，每个键及其对应值都是一个字符串。
+ * 该类也被许多Java类使用，比如获取系统属性时， System.getProperties 方法就是返回一个Properties 对象
+ */
+-----------------
+几个方法：
+/*
+ * setProperty(String key, String value) 
+ * 	     调用 Hashtable方法 put 。
+ * getProperty(String key) 
+ * 	使用此属性列表中指定的键搜索属性。相当于map集合的get 
+ * stringPropertyNames() 返回键集 相当于map中的Set方法
+ */
+/*
+ * void store(OutputStream out, String comments) 字节流
+ * void store(Writer writer, String comments) 字符流
+ * 	String comments：注释，用于解释说明保存文件是干啥
+ * 	不能使用中文，一般用空字符串（中文乱码）
+ */
+/*
+ * load(InputStream inStream) 读取属性列表（键和元素对）。字节输入流
+ * load(Reader reader) 读取属性列表（键和元素对）。  字符输入流
+ * 
+ * 存储键值对的文件中，可以用#进行注释
+ * 键值对默认均为字符串，不用加引号
+ * 文本中的数据，必须是键值对形式，可以使用空格、等号、冒号等符号分隔。
+ */
+eg:
+Properties prop = new Properties();		
+prop.load(new FileInputStream("F:\\a.txt"));
 
+-------------------------------------------
+70./*
+ * 缓冲流,也叫高效流，是对4个基本的FileXxx 流的增强，所以也是4个流，按照数据类型分类： 
+ * 字节缓冲流： BufferedInputStream ， BufferedOutputStream
+ * 字符缓冲流： BufferedReader ， BufferedWriter
+ * 缓冲流的基本原理，是在创建流对象时，会创建一个内置的默认大小的缓冲区数组，
+ * 通过缓冲区读写，减少系统IO次数，从而提高读写的效率。
+ */
+----------------------------------------------------
+71./*
+ * BufferedOutputStream(OutputStream out) 创建一个新的缓冲输出流，以将数据写入指定的底层输出流。  （大小默认）
+ * BufferedOutputStream(OutputStream out, int size)  创建一个新的缓冲输出流，以便以指定的缓冲区大小将数据写入指定的底层输出流。  
+ * OutputStream out :字节输出流
+ * 	size：指定缓冲流内部缓冲区大小
+-------------------
+也可直接进行BufferedOutputStream（new FileoutputStrem）
+ * 步骤：
+ * 1.创建FileoutputStrem对象，绑定输出目的地
+ * 2.创建BufferedOutputStream对象，传递OutputStream对象，提高效率
+ * 3.使用BufferedOutputStream中的write方法，写入到内部缓冲区
+ * 4.使用BufferedOutputStream中的flush方法，刷新到文件中
+ * 5.释放资源，因此第四步可省略
+ */
+
+72.字符缓冲输出流(必须flush)
+/*特有方法：根据系统不一样获取不同分隔符
+ * void newLine() 
+ * 写一行行分隔符。  
+ */------------------------>读源码可知，println调用newline()
+//步骤与writer差不多
+
+73.字符缓冲输入流
+/*
+ * 特有方法：
+ * String readLine() 
+ * 读一行文字。  
+ * 读一行文字。 一行被视为由换行符（'\ n'），回车符（'\ r'）中的任何一个或随后的换行符终止。  
+ * 返回：包含行的内容的字符串，不包括任何行终止字符，如果已达到流的末尾，则为null 
+ */
+String s;		
+while((s = br.readLine() )!=null) 
+	System.out.println(s); 
+
+74.
+nextInt() 
+将输入的下一个标记扫描为 int 。 
+获取键盘输入的一个int数字，int num= sc.nextInt();
+获取键盘输入的一个字符串，String num= sc.next();
+
+75.
+ArrayList提供了一个将List转为数组的一个非常方便的方法toArray
+boolean contains方法判断是否存在
