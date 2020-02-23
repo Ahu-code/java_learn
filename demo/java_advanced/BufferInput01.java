@@ -13,7 +13,7 @@ import java.io.IOException;
  * 
  *  * 步骤：
  * 		1.创建FileInputStrem对象，绑定输出目的地
- * 		2.创建BufferedInputStream对象，传递OutInStream对象，提高效率
+ * 		2.创建BufferedInputStream对象，传递InputStream对象，提高效率
  * 		3.使用BufferedInputStream中的read方法，读取文件
  * 		4.使用BufferedInputStream中的flush方法，刷新到文件中
  * 		5.释放资源，因此第四步可省略

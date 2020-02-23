@@ -16,6 +16,7 @@ public class CopybyIO {
 			fos.write(len);*/
 		
 		
+		
 		//使用 数组进行缓存
 		byte[] bytes = new byte[4096];
 		int len=0;
