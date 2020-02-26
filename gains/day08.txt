@@ -1,0 +1,110 @@
+﻿1.Lambda方法：
+面向对象的思想:
+做一件事情,找一个能解决这个事情的对象,调用对象的方法,完成事情.
+函数式编程思想:
+只要能获取到结果,谁去做的,怎么做的都不重要,重视的是结果,不重视过程
+--------------------------------------
+2.接口与抽象类几个区别
+--->首先回答：抽象类中的方法必须在子类中实现吗？
+如果是抽象类要实现接口（抽象类），可以实现部分或者一个都不实现就行，要是具体类就必须实现所有的方法
+---->回答区别，这个博客说的好
+https://blog.csdn.net/u012092924/article/details/78342193?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task
+---1、概念不一样。接口是对动作的抽象，抽象类是对本质的抽象。
+抽象类表示的是，这个对象是什么。接口表示的是，这个对象能做什么。比如，男人，女人，这两个类（如果是类的话……），他们的抽象类是人。说明，他们都是人。人可以吃东西，狗也可以吃东西，你可以把“吃东西”定义成一个接口，然后让这些类去实现它。
+所以，在高级语言上，一个类只能继承一个类（抽象类）(正如人不可能同时是生物和非生物)，但是可以实现多个接口(吃饭接口、走路接口)。
+---2、使用不一样：
+a.抽象类 和 接口 都是用来抽象具体对象的. 但是接口的抽象级别最高
+b.抽象类可以有具体的方法 和属性,  接口只能有抽象方法和不可变常量
+c.抽象类主要用来抽象类别,接口主要用来抽象功能.
+d.抽象类中，且不包含任何实现，派生类必须覆盖它们。
+接口中所有方法都必须是未实现的。
+e.接口是设计的结果 ，抽象类是重构的结果
+---3、使用方向：当你关注一个事物的本质的时候，用抽象类；当你关注一个操作的时候，用接口。
+---注意：抽象类的功能要远超过接口，但是，定义抽象类的代价高。因为高级语言来说（从实际设计上来说也是）每个类只能继承一个类。在这个类中，你必须继承或编写出其所有子类的所有共性。虽然接口在功能上会弱化许多，但是它只是针对一个动作的描述。而且你可以在一个类中同时实现多个接口。在设计阶段会降低难度的。
+---------------------------------------------------------
+3.lambda
+ * Lambda省去面向对象的条条框框，格式由3个部分组成：
+一些参数
+一个箭头
+一段代码
+Lambda表达式的标准格式为：
+(参数类型 参数名称) ‐> { 代码语句 }
+() ‐> System.out.println("多线程任务执行！")
+--------
+格式说明：
+小括号内的语法与传统方法参数列表一致：无参数则留空；多个参数则用逗号分隔。
+-> 是新引入的语法格式，代表指向动作。
+
+(参数类型 参数名称) ‐> { 代码语句 }
+--------------------------------------------------------
+4.温习Comparable和Comparator
+用法——实现comparable就是让自身具有比较性，Comparator是比较器（第三者）
+1.Comparable接口对实现它的每个类的对象强加一个整体排序。 这个排序被称为类的自然排序 ，类的compareTo方法被称为其自然比较方法。该接口有且只有一个方法int compareTo(T o)所以继承此接口需要实现该方法。compareTo返回值-1、0、1。
+
+2.Comparator一般是在比较器例如: Collections.sort(List<T> list, Comparator<? super T> c) 
+
+Collections.sort(list02, new Comparator<Student>() {
+	@Override
+	public int compare(Student o1, Student o2) {
+		// TODO Auto-generated method stub
+		return o1.getAge()-o2.getAge();
+	/*int result = o1.getAge()-o2.getAge();
+	if(result == 0) {
+	       result = o1.getName().charAt(0)-o2.getName().charAt(0);		}
+	return result;*/
+	}
+});
+Comparator :    o1-o2为升序
+return o1.getAge()-o2.getAge();//按年龄升序排序
+详情见https://blog.csdn.net/yguoelect/article/details/77435073?utm_source=distribute.pc_relevant.none-task
+------------>lambda优化
+//使用lambda简化
+Arrays.sort(arr, (Person o1, Person o2)->{
+	return o1.getAge() - o2.getAge() ;
+});
+--------------------------------------------------
+5.使用Lambda标准格式（有参有返回）
+public interface Calculator01 {
+	//定义一个可将两个int数字相加得到和值的方法
+	public abstract int cal(int a, int b);
+}
+--------
+//使用Lambda标准格式（有参有返回）
+
+public class CalculatorImpl {
+    public static void main(String[] args) {
+	invokeCal(10, 20, new Calculator01() {
+		
+	@Override
+	public int cal(int a, int b) {
+		return a+b;
+	}
+     });
+		
+      //使用匿名内部类
+      invokeCal(10, 20, (int a, int b)->{return a+b;});
+      }
+/*
+ * 定义一个方法，传递两个int类型整数
+ * 参数传递Calculator接口
+ */
+      public static void invokeCal(int a, int b ,Calculator01 cal) {
+	int sum = cal.cal(a, b);
+	System.out.println(sum);
+      }
+}
+-----------------------------------------------------------
+6.  省略规则---->可以推导才可省略
+在Lambda标准格式的基础上，使用省略写法的规则为：
+1. 小括号内参数的类型可以省略；
+2. 如果小括号内有且仅有一个参，则小括号可以省略；
+3. 如果大括号内有且仅有一个语句，则无论是否有返回值，
+都可以省略大括号、return关键字及语句分号。
+	注意：要省略他们三，必须一起省略
+----------------------------------------------------
+7.特别注意：（有且仅有一个抽象方法，且可推断出来）
+1. 使用Lambda必须具有接口，且要求接口中有且仅有一个抽象方法。
+无论是JDK内置的Runnable 、Comparator 接口还是自定义的接口，只有当接口中的抽象方法存在且唯一时，才可以使用Lambda。
+2. 使用Lambda必须具有上下文推断。
+也就是方法的参数或局部变量类型必须为Lambda对应的接口类型，才能使用Lambda作为该接口的实例。
+备注：有且仅有一个抽象方法的接口，称为“函数式接口”。
